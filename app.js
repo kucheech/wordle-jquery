@@ -2,6 +2,8 @@ const row1Letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
 const row2Letters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
 const row3Letters = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<x]']
 
+let currentTile = 1;
+
 const addTile = ($row, id) => {
     const $tile = $('<div>')
     $tile.attr('id', id)
@@ -41,6 +43,9 @@ $(() => {
     buttons.click((e) => {
         const letter = e.currentTarget.innerText
         console.log('clicked', letter)
+        $currentTile = $(`#tile-${currentTile}`)
+        $currentTile.text(letter)
+        currentTile++
         // e.currentTarget.disabled = true
         e.currentTarget.style.backgroundColor = 'darkgrey'
     })
