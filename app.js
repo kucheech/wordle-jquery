@@ -1,3 +1,8 @@
+import words from './words.js'
+
+const answer = words[Math.floor(Math.random()*words.length)]
+console.log(answer)
+
 const row1Letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
 const row2Letters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
 const row3Letters = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<x]']
@@ -33,6 +38,10 @@ const addAttemptTiles = attemptNum => {
     for (let i = 1; i <= 5; i++) {
         addTile($row, `tile-${(attemptNum - 1) * 5 + i}`)
     }
+}
+
+const checkAnswer = guess => {
+
 }
 
 const extractWord = () => {
