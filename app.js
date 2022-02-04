@@ -40,8 +40,43 @@ const addAttemptTiles = attemptNum => {
     }
 }
 
-const checkAnswer = guess => {
+const setKBColor = (ch, t, mode)  => {
+    let backgroundColour = 'darkgrey'
+    let textColour = 'white'
 
+    if(mode === 'correct') {
+        backgroundColour = 'green'
+    } else if(mode === 'partial') {
+        backgroundColour = 'tan'
+    } else {        
+        textColour = 'black'
+    }
+
+    $(`#tile-${t}`).css('background-color', backgroundColour)
+    $(`#tile-${t}`).css('color', textColour)
+    $(`#kb-${ch}`).css('background-color', backgroundColour)
+    $(`#kb-${ch}`).css('color', textColour)
+}
+
+const checkAnswer = () => {
+    const guess = extractWord()
+
+    let greens = 0
+    let tileNum = (attemptNum - 1) * 5 + 1
+    guess.forEach((ch,i) => {        
+        if(ch === answer[i]) {
+            greens++
+            setKBColor(ch, tileNum, 'correct')            
+        } else if(answer.includes(ch)) {
+            setKBColor(ch, tileNum, 'partial')            
+        } else {
+            setKBColor(ch, tileNum)
+        }
+
+        tileNum++
+    })
+    
+    return greens === 5
 }
 
 const extractWord = () => {
@@ -49,13 +84,28 @@ const extractWord = () => {
     for(let i = 1; i <= 5; i++) {
         w.push($(`#tile-${(attemptNum-1)*5 + i}`).text())
     }
-    return w.join('')
+
+    return w
 }
 
 const processInput = letter => {
     if (letter === 'ENTER') {
         if(currentTile > attemptNum * 5) {
-            console.log(extractWord())
+            
+            const winGame = checkAnswer()
+
+            if(winGame) {
+                endGame()
+                alert('You win!')
+            } else {
+                attemptNum++
+                if(attemptNum <= 5) {
+                    addAttemptTiles(attemptNum)
+                } else {
+                    endGame()
+                    alert('Game over...')
+                }
+            }            
         } else {
             alert('to complete 5-letter word')
         }
@@ -70,6 +120,11 @@ const processInput = letter => {
     }
 }
 
+
+const endGame = () => {
+    $('button').attr('disabled', true)
+}
+
 $(() => {
 
     addAttemptTiles(1)
@@ -78,10 +133,6 @@ $(() => {
 
     const buttons = $('button')
     buttons.click((e) => {
-        const letter = e.currentTarget.innerText
-
-        processInput(letter)
-
-        e.currentTarget.style.backgroundColor = 'darkgrey'
+        processInput(e.currentTarget.innerText)
     })
 });

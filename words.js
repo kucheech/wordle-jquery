@@ -217,4 +217,4 @@ const nouns = [
 
 const words = [...nouns]
 
-export default  words 
+export default words 

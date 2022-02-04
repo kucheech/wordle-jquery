@@ -1,6 +1,10 @@
 body {
     background-color: aliceblue;
+    width: 80%;
+    margin: 50px auto;
+    text-align: center;
 }
+
 .tile {
     height: 40px;
     width: 40px;
