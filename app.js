@@ -1,6 +1,13 @@
 const row1Letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
 const row2Letters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
-const row3Letters = ['ENTER','Z','X','C','V','B','N','M', '<x]']
+const row3Letters = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<x]']
+
+const addTile = ($row, id) => {
+    const $tile = $('<div>')
+    $tile.attr('id', id)
+    $tile.addClass('tile')
+    $row.append($tile)
+}
 
 const addButton = ($row, letter) => {
     const $button = $('<button>')
@@ -9,15 +16,24 @@ const addButton = ($row, letter) => {
 }
 
 const addKeyboard = () => {
-    const $row1 = $('#row1')
+    const $row1 = $('#kb-row1')
     row1Letters.forEach(ch => addButton($row1, ch))
-    const $row2 = $('#row2')
+    const $row2 = $('#kb-row2')
     row2Letters.forEach(ch => addButton($row2, ch))
-    const $row3 = $('#row3')
+    const $row3 = $('#kb-row3')
     row3Letters.forEach(ch => addButton($row3, ch))
 }
 
+const addAttemptTiles = attemptNum => {
+    const $row = $(`#attempt-row${attemptNum}`)
+    for (let i = 1; i <= 5; i++) {
+        addTile($row, `tile-${(attemptNum - 1) * 5 + i}`)
+    }
+}
+
 $(() => {
+
+    addAttemptTiles(1)
 
     addKeyboard()
 
