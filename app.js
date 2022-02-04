@@ -1,6 +1,8 @@
 import words from './words.js'
 
-const answer = words[Math.floor(Math.random()*words.length)]
+const MAX_ATTEMPTS = 6
+
+const answer = words[Math.floor(Math.random() * words.length)]
 console.log(answer)
 
 const row1Letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
@@ -40,15 +42,15 @@ const addAttemptTiles = attemptNum => {
     }
 }
 
-const setKBColor = (ch, t, mode)  => {
+const setKBColor = (ch, t, mode) => {
     let backgroundColour = 'darkgrey'
     let textColour = 'white'
 
-    if(mode === 'correct') {
+    if (mode === 'correct') {
         backgroundColour = 'green'
-    } else if(mode === 'partial') {
+    } else if (mode === 'partial') {
         backgroundColour = 'tan'
-    } else {        
+    } else {
         textColour = 'black'
     }
 
@@ -63,26 +65,26 @@ const checkAnswer = () => {
 
     let greens = 0
     let tileNum = (attemptNum - 1) * 5 + 1
-    guess.forEach((ch,i) => {        
-        if(ch === answer[i]) {
+    guess.forEach((ch, i) => {
+        if (ch === answer[i]) {
             greens++
-            setKBColor(ch, tileNum, 'correct')            
-        } else if(answer.includes(ch)) {
-            setKBColor(ch, tileNum, 'partial')            
+            setKBColor(ch, tileNum, 'correct')
+        } else if (answer.includes(ch)) {
+            setKBColor(ch, tileNum, 'partial')
         } else {
             setKBColor(ch, tileNum)
         }
 
         tileNum++
     })
-    
+
     return greens === 5
 }
 
 const extractWord = () => {
     const w = []
-    for(let i = 1; i <= 5; i++) {
-        w.push($(`#tile-${(attemptNum-1)*5 + i}`).text())
+    for (let i = 1; i <= 5; i++) {
+        w.push($(`#tile-${(attemptNum - 1) * 5 + i}`).text())
     }
 
     return w
@@ -90,22 +92,22 @@ const extractWord = () => {
 
 const processInput = letter => {
     if (letter === 'ENTER') {
-        if(currentTile > attemptNum * 5) {
-            
+        if (currentTile > attemptNum * 5) {
+
             const winGame = checkAnswer()
 
-            if(winGame) {
+            if (winGame) {
                 endGame()
                 alert('You win!')
             } else {
                 attemptNum++
-                if(attemptNum <= 5) {
+                if (attemptNum <= MAX_ATTEMPTS) {
                     addAttemptTiles(attemptNum)
                 } else {
                     endGame()
                     alert('Game over...')
                 }
-            }            
+            }
         } else {
             alert('to complete 5-letter word')
         }
@@ -131,8 +133,5 @@ $(() => {
 
     addKeyboard()
 
-    const buttons = $('button')
-    buttons.click((e) => {
-        processInput(e.currentTarget.innerText)
-    })
+    $('button').click(e => processInput(e.currentTarget.innerText))
 });
