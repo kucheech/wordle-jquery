@@ -3,6 +3,7 @@ const row2Letters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
 const row3Letters = ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<x]']
 
 let currentTile = 1;
+let attemptNum = 1;
 
 const addTile = ($row, id) => {
     const $tile = $('<div>')
@@ -13,6 +14,7 @@ const addTile = ($row, id) => {
 
 const addButton = ($row, letter) => {
     const $button = $('<button>')
+    $button.attr('id', `kb-${letter}`)
     $button.text(letter)
     $row.append($button)
 }
@@ -33,6 +35,32 @@ const addAttemptTiles = attemptNum => {
     }
 }
 
+const extractWord = () => {
+    const w = []
+    for(let i = 1; i <= 5; i++) {
+        w.push($(`#tile-${(attemptNum-1)*5 + i}`).text())
+    }
+    return w.join('')
+}
+
+const processInput = letter => {
+    if (letter === 'ENTER') {
+        if(currentTile > attemptNum * 5) {
+            console.log(extractWord())
+        } else {
+            alert('to complete 5-letter word')
+        }
+    } else if (letter === '<x]') {
+        if (currentTile > (attemptNum - 1) * 5 + 1) {
+            currentTile--
+            $(`#tile-${currentTile}`).text(null)
+        }
+    } else if (currentTile <= attemptNum * 5) {
+        $(`#tile-${currentTile}`).text(letter)
+        currentTile++
+    }
+}
+
 $(() => {
 
     addAttemptTiles(1)
@@ -42,11 +70,9 @@ $(() => {
     const buttons = $('button')
     buttons.click((e) => {
         const letter = e.currentTarget.innerText
-        console.log('clicked', letter)
-        $currentTile = $(`#tile-${currentTile}`)
-        $currentTile.text(letter)
-        currentTile++
-        // e.currentTarget.disabled = true
+
+        processInput(letter)
+
         e.currentTarget.style.backgroundColor = 'darkgrey'
     })
 });
