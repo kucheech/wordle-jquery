@@ -18,10 +18,12 @@ body {
 
 button {
     margin: 4px 8px;
+    font-size: large;
 }
 
 @media only screen and (max-width: 600px) {
     button {
         margin: 2px;
+        font-size: medium;
     }
 }
