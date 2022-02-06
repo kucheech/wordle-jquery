@@ -132,6 +132,19 @@ $(() => {
     addAttemptTiles(1)
 
     addKeyboard()
+    $('body').keydown(e => {
+        const code = e.which
+        let ch
+        if (code === 13) {
+            ch = 'ENTER'
+        } else if (code === 8) {
+            ch = '<x]'
+        } else {
+            ch = String.fromCharCode(code)
+        }
+
+        processInput(ch)
+    })
 
     $('button').click(e => processInput(e.currentTarget.innerText))
 });
