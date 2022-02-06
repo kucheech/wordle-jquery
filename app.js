@@ -143,7 +143,9 @@ $(() => {
             ch = String.fromCharCode(code)
         }
 
-        processInput(ch)
+        if (/[ENTER|<x\]|A-Z]/.test(ch)) {
+            processInput(ch)
+        }
     })
 
     $('button').click(e => processInput(e.currentTarget.innerText))
